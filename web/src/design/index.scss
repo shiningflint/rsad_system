@@ -1,0 +1,13 @@
+@import 'colors';
+
+body {
+  background-color: $body-bg-color;
+  color: $body-color;
+
+  a {
+    color: $link-color;
+    &:hover {
+      color: $link-color-hover;
+    }
+  }
+}
