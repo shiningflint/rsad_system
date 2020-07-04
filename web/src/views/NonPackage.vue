@@ -8,10 +8,7 @@
     />
     <div>Total price: Rp {{ totalPrice }}</div>
     <div>
-      <b-button
-        type="button"
-        @click="$router.go(-1)"
-      >
+      <b-button type="button" @click="$router.go(-1)">
         Back
       </b-button>
     </div>
