@@ -11,3 +11,29 @@ body {
     }
   }
 }
+
+img {
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.box-decoration {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: black;
+  box-shadow: 6px 6px 0 0 black;
+  padding:16px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    right: 4px;
+    left: 4px;
+    border: 2px solid $body-bg-color;
+  }
+}
