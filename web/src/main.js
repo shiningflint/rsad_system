@@ -9,6 +9,7 @@ import { db } from './db'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import './design/index.scss'
+import './registerServiceWorker'
 
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
