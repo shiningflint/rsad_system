@@ -7,11 +7,6 @@
       @addOrder="addOrder"
     />
     <div>Total price: Rp {{ totalPrice }}</div>
-    <div>
-      <b-button type="button" @click="$router.go(-1)">
-        Back
-      </b-button>
-    </div>
   </div>
 </template>
 
@@ -103,6 +98,6 @@ export default {
     this.serviceOptions = services
     this.facilityOptions = facilities
     this.productOptions = products
-  }
+  },
 }
 </script>

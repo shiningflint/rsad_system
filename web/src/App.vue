@@ -1,12 +1,24 @@
 <template>
   <div id="app" class="app">
+    <app-header v-if="showHeader" />
     <router-view />
   </div>
 </template>
 
 <script>
+import AppHeader from './components/AppHeader'
 export default {
-  name: 'App'
+  name: 'App',
+
+  components: {
+    AppHeader
+  },
+
+  computed: {
+    showHeader () {
+      return this.$route.matched.find(r => r.meta.showHeader)
+    }
+  }
 }
 </script>
 
@@ -17,7 +29,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   margin: 0 auto 0 auto;
-  padding-top: 60px;
   max-width: 600px;
 }
 </style>

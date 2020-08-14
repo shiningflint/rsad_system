@@ -20,10 +20,15 @@ export const routes = [
     name: 'OrdersShow',
     props: true,
   },
-  { path: '/package', component: Package },
+  {
+    path: '/package',
+    component: Package,
+    meta: { showHeader: true },
+  },
   {
     path: '/non_package',
     component: NonPackage,
+    meta: { showHeader: true },
     children: [
       {
         path: '',
@@ -44,6 +49,6 @@ export const routes = [
         name: 'NonPackageDone',
         component: NonPackageDone,
       },
-    ]
+    ],
   },
 ]
