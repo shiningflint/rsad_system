@@ -1,4 +1,4 @@
-export const services = [
+const services = [
   {
     text: 'Formalin',
     value: 'formalin',
@@ -61,7 +61,7 @@ export const services = [
   },
 ]
 
-export const facilities = [
+const facilities = [
   {
     text: 'Freezer',
     value: 'freezer',
@@ -82,7 +82,7 @@ export const facilities = [
   },
 ]
 
-export const products = [
+const products = [
   {
     text: 'Peti',
     value: 'coffin',
@@ -119,4 +119,10 @@ export const products = [
     price: 10000,
     category: 'product'
   },
+]
+
+export const AllPackageItems = [
+  ...services,
+  ...facilities,
+  ...products
 ]

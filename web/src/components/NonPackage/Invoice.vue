@@ -5,10 +5,10 @@
       <p>Selected services</p>
       <ul>
         <li
-          v-for="(service, index) in this.form.selectedServices"
+          v-for="(service, index) in selectedPackageItem('service')"
           :key="index"
         >
-          {{ service }}
+          {{ service.text }} - {{ service.price }}
         </li>
       </ul>
     </div>
@@ -17,10 +17,10 @@
       <p>Selected facilities</p>
       <ul>
         <li
-          v-for="(facility, index) in this.form.selectedFacilities"
+          v-for="(facility, index) in selectedPackageItem('facility')"
           :key="index"
         >
-          {{ facility }}
+          {{ facility.text }} - {{ facility.price }}
         </li>
       </ul>
     </div>
@@ -29,10 +29,10 @@
       <p>Selected products</p>
       <ul>
         <li
-          v-for="(product, index) in this.form.selectedProducts"
+          v-for="(product, index) in selectedPackageItem('product')"
           :key="index"
         >
-          {{ product }}
+          {{ product.text }} - {{ product.price }}
         </li>
       </ul>
     </div>
@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import { AllPackageItems } from '../../constants/nonPackageProducts'
+
 export default {
   name: 'NonPackageInvoice',
 
@@ -56,24 +58,28 @@ export default {
       type: Object,
       required: true
     },
-    options: {
-      type: Object,
-      required: true
-    },
   },
 
   computed: {
     isInvalid () {
-      return this.form.selectedServices.length +
-        this.form.selectedFacilities.length +
-        this.form.selectedProducts.length === 0
-    }
+      return this.form.packageItemOrders.length === 0
+    },
   },
 
   methods: {
     onConfirm () {
       this.$router.push({ name: 'NonPackageConfirm' })
     },
+    selectedPackageItem (category) {
+      const result = this.form.packageItemOrders
+        .map(value => {
+          return AllPackageItems.find(item => {
+            return item.value === value
+          })
+        })
+        .filter(item => item.category === category)
+      return result
+    }
   }
 }
 </script>
