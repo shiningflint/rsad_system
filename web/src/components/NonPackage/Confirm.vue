@@ -23,17 +23,6 @@
 export default {
   name: 'NonPackageConfirm',
 
-  props: {
-    form: {
-      type: Object,
-      required: true
-    },
-    options: {
-      type: Object,
-      required: true
-    },
-  },
-
   data () {
     return {
       agree: false

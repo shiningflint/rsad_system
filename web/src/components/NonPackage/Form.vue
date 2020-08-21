@@ -5,8 +5,8 @@
         <b-form-group>
           <b-form-checkbox-group
             id="service"
-            v-model="form.selectedServices"
-            :options="options.serviceOptions"
+            v-model="form.packageItemOrders"
+            :options="packageItemOptions('service')"
             size="lg"
             stacked
           />
@@ -17,8 +17,8 @@
         <b-form-group>
           <b-form-checkbox-group
             id="facility"
-            v-model="form.selectedFacilities"
-            :options="options.facilityOptions"
+            v-model="form.packageItemOrders"
+            :options="packageItemOptions('facility')"
             size="lg"
             stacked
           />
@@ -29,8 +29,8 @@
         <b-form-group>
           <b-form-checkbox-group
             id="product"
-            v-model="form.selectedProducts"
-            :options="options.productOptions"
+            v-model="form.packageItemOrders"
+            :options="packageItemOptions('product')"
             size="lg"
             stacked
           />
@@ -51,8 +51,8 @@ export default {
       type: Object,
       required: true
     },
-    options: {
-      type: Object,
+    packageItems: {
+      type: Array,
       required: true
     },
   },
@@ -60,6 +60,10 @@ export default {
   methods: {
     onSubmit () {
       this.$router.push({ name: 'NonPackageInvoice' })
+    },
+    packageItemOptions (category) {
+      return this.packageItems
+                 .filter(item => item.category === category)
     },
   },
 }

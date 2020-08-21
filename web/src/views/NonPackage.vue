@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { services, facilities, products } from '../constants/nonPackageProducts'
+import { AllPackageItems } from '../constants/nonPackageProducts'
 import { formatMoney } from '../utilities/currency'
 
 export default {
@@ -20,13 +20,8 @@ export default {
   data () {
     return {
       form: {
-        selectedServices: [],
-        selectedFacilities: [],
-        selectedProducts: []
+        packageItemOrders: [],
       },
-      serviceOptions: [],
-      facilityOptions: [],
-      productOptions: [],
     }
   },
 
@@ -34,26 +29,8 @@ export default {
     pageProps () {
       return {
         form: this.form,
-        options: {
-          serviceOptions: this.serviceOptions,
-          facilityOptions: this.facilityOptions,
-          productOptions: this.productOptions,
-        }
+        packageItems: AllPackageItems,
       }
-    },
-    allItems () {
-      return [
-        ...services,
-        ...facilities,
-        ...products,
-      ]
-    },
-    selectedItems () {
-      return [
-        ...this.form.selectedServices,
-        ...this.form.selectedFacilities,
-        ...this.form.selectedProducts,
-      ]
     },
     totalPrice () {
       return formatMoney(this.getTotalPrice())
@@ -64,8 +41,8 @@ export default {
     getTotalPrice () {
       let totalPrice = 0
 
-      this.selectedItems.forEach(item => {
-        const result = this.allItems.find(a => a.value === item)
+      this.form.packageItemOrders.forEach(item => {
+        const result = AllPackageItems.find(a => a.value === item)
         if (result && result.price) {
           totalPrice += result.price
         }
@@ -76,8 +53,8 @@ export default {
     addOrder () {
       const orderDetails = []
 
-      this.selectedItems.forEach(item => {
-        const result = this.allItems.find(a => a.value === item)
+      this.form.packageItemOrders.forEach(item => {
+        const result = AllPackageItems.find(a => a.value === item)
         if (result && result.price) {
           orderDetails.push({
             value: result.value,
@@ -86,18 +63,12 @@ export default {
         }
       })
 
-      this.$db.orders.put({
-        products: orderDetails,
+      this.$db.death_records.put({
+        package_item_orders: orderDetails,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       })
     },
-  },
-
-  created () {
-    this.serviceOptions = services
-    this.facilityOptions = facilities
-    this.productOptions = products
   },
 }
 </script>

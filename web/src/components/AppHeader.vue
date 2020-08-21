@@ -31,6 +31,7 @@ export default {
   border-bottom: 1px solid #1b220c;
   position: fixed;
   top: 0;
+  left: 0;
   padding: 4px 0;
   width: 100%;
   z-index: 1;
