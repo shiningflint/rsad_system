@@ -1,15 +1,22 @@
+import { PATH } from './path'
 import Home from '../views/Home.vue'
 import Orders from '../views/Orders/index.vue'
 import OrdersShow from '../views/Orders/Show.vue'
 import Package from '../views/Package.vue'
 import NonPackage from '../views/NonPackage.vue'
-import NonPackageForm from '../components/NonPackage/Form'
+import NonPackageForm from '../components/NonPackage/Form/index'
+import NPFPackageItems from '../components/NonPackage/Form/PackageItems'
+import NPFDeathDetails from '../components/NonPackage/Form/DeathDetails'
 import NonPackageInvoice from '../components/NonPackage/Invoice'
 import NonPackageConfirm from '../components/NonPackage/Confirm'
 import NonPackageDone from '../components/NonPackage/Done'
 
 export const routes = [
-  { path: '/', component: Home },
+  {
+    path: '/',
+    component: Home,
+    name: PATH.home,
+  },
   {
     path: '/orders',
     component: Orders,
@@ -31,22 +38,35 @@ export const routes = [
     meta: { showHeader: true },
     children: [
       {
-        path: '',
+        path: 'form',
+        name: PATH.nonPackage.form.index,
         component: NonPackageForm,
+        children: [
+          {
+            path: 'package_items',
+            component: NPFPackageItems,
+            name: PATH.nonPackage.form.packageItems,
+          },
+          {
+            path: 'death_details',
+            component: NPFDeathDetails,
+            name: PATH.nonPackage.form.deathDetails,
+          },
+        ],
       },
       {
         path: 'invoice',
-        name: 'NonPackageInvoice',
+        name: PATH.nonPackage.invoice,
         component: NonPackageInvoice,
       },
       {
         path: 'confirm',
-        name: 'NonPackageConfirm',
+        name: PATH.nonPackage.confirm,
         component: NonPackageConfirm,
       },
       {
         path: 'done',
-        name: 'NonPackageDone',
+        name: PATH.nonPackage.done,
         component: NonPackageDone,
       },
     ],

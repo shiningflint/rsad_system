@@ -62,16 +62,16 @@ export default {
 
   computed: {
     isInvalid () {
-      return this.form.packageItemOrders.length === 0
+      return this.form.package_item_orders.length === 0
     },
   },
 
   methods: {
     onConfirm () {
-      this.$router.push({ name: 'NonPackageConfirm' })
+      this.$router.push({ name: this.$path.nonPackage.confirm })
     },
     selectedPackageItem (category) {
-      const result = this.form.packageItemOrders
+      const result = this.form.package_item_orders
         .map(value => {
           return AllPackageItems.find(item => {
             return item.value === value

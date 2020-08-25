@@ -38,7 +38,7 @@ export default {
   methods: {
     onSubmit () {
       this.$emit('addOrder')
-      this.$router.push({ name: 'NonPackageDone' })
+      this.$router.push({ name: this.$path.nonPackage.done })
     }
   },
 }

@@ -12,6 +12,7 @@
 
 <script>
 import { AllPackageItems } from '../constants/nonPackageProducts'
+import { religions } from '../constants/religions'
 import { formatMoney } from '../utilities/currency'
 
 export default {
@@ -20,7 +21,16 @@ export default {
   data () {
     return {
       form: {
-        packageItemOrders: [],
+        package_item_orders: [],
+        sex: null,
+        name: '',
+        religion: religions.none,
+        occupation: '',
+        death_date: '',
+        contact_time: '',
+        pickup_time: '',
+        birthplace: '',
+        address: '',
       },
     }
   },
@@ -41,7 +51,7 @@ export default {
     getTotalPrice () {
       let totalPrice = 0
 
-      this.form.packageItemOrders.forEach(item => {
+      this.form.package_item_orders.forEach(item => {
         const result = AllPackageItems.find(a => a.value === item)
         if (result && result.price) {
           totalPrice += result.price
@@ -53,7 +63,7 @@ export default {
     addOrder () {
       const orderDetails = []
 
-      this.form.packageItemOrders.forEach(item => {
+      this.form.package_item_orders.forEach(item => {
         const result = AllPackageItems.find(a => a.value === item)
         if (result && result.price) {
           orderDetails.push({

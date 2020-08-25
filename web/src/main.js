@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
 import { routes } from './routes'
+import { PATH } from './routes/path'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import { db } from './db'
 
@@ -19,6 +20,7 @@ Vue.config.productionTip = false
 const router = new VueRouter({ routes })
 
 Vue.prototype.$db = db
+Vue.prototype.$path = PATH
 
 new Vue({
   render: h => h(App),

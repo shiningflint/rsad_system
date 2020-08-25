@@ -15,7 +15,7 @@
           </router-link>
         </b-col>
         <b-col class="d-flex justify-content-center">
-          <router-link to="/non_package" class="box-decoration" style="width: 120px; height: 120px;">
+          <router-link :to="{ name: $path.nonPackage.form.packageItems }" class="box-decoration" style="width: 120px; height: 120px;">
             Non paket
           </router-link>
         </b-col>

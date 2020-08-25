@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Done! Thanks!</p>
-    <router-link to="/">Back to home</router-link>
+    <router-link :to="{ name: $path.home }">Back to home</router-link>
   </div>
 </template>
 
