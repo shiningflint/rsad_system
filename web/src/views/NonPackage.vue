@@ -30,7 +30,15 @@ export default {
         contact_time: '',
         pickup_time: '',
         birthplace: '',
+        birthdate: '',
         address: '',
+        requester: {
+          name: '',
+          address: '',
+          phone_numbers: [
+            { number: '', variety: 'mobile' },
+          ]
+        },
       },
     }
   },

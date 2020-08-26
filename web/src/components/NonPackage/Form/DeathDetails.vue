@@ -54,6 +54,29 @@
         :hour12="false"
       />
     </b-form-group>
+    <b-form-group label="Lahir di tempat">
+      <b-form-input
+        id="birthplace"
+        v-model="form.birthplace"
+      />
+    </b-form-group>
+    <b-form-group label="Lahir tanggal">
+      <b-form-datepicker
+        id="birthdate"
+        v-model="form.birthdate"
+        required
+      />
+    </b-form-group>
+    <b-form-group label="Alamat almarhum/ah">
+      <b-form-textarea
+        id="address"
+        v-model="form.address"
+        required
+      />
+    </b-form-group>
+    <b-button type="button" @click="onFormNext">
+      Lanjut ke data permintaan
+    </b-button>
   </div>
 </template>
 
@@ -90,6 +113,12 @@ export default {
         { text: 'Buddha', value: religions.buddhist },
       ],
     }
-  }
+  },
+
+  methods: {
+    onFormNext () {
+      this.$router.push({ name: this.$path.nonPackage.form.requesterDetails })
+    },
+  },
 }
 </script>

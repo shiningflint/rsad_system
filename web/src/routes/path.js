@@ -5,6 +5,7 @@ export const PATH = {
       index: 'NonPackageForm',
       packageItems: 'NPFPackageItems',
       deathDetails: 'NPFDeathDetails',
+      requesterDetails: 'NPFRequesterDetails',
     },
     invoice: 'NonPackageInvoice',
     confirm: 'NonPackageConfirm',
