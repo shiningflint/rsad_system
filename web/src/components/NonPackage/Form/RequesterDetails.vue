@@ -4,39 +4,54 @@
       <b-form-input
         id="name"
         v-model="form.requester.name"
-        required
+        :state="validateState('name')"
       />
+      <b-form-invalid-feedback>
+        Nama harus diisi
+      </b-form-invalid-feedback>
     </b-form-group>
     <b-form-group label="Alamat">
       <b-form-textarea
         id="address"
         v-model="form.requester.address"
-        required
+        :state="validateState('address')"
       />
+      <b-form-invalid-feedback>
+        Alamat harus diisi
+      </b-form-invalid-feedback>
     </b-form-group>
     <b-form-group label="No. Telepon">
       <requester-phone-numbers
         v-model="form.requester.phone_numbers"
+        :v="v.form.requester.phone_numbers"
       />
+      <b-form-invalid-feedback
+        :class="{ 'd-block': validateState('phone_numbers') === false }"
+      >
+        Nomor kontak harus minimal satu
+      </b-form-invalid-feedback>
     </b-form-group>
   </div>
 </template>
 
 <script>
 import RequesterPhoneNumbers from './RequesterPhoneNumbers'
+import { mixin } from './mixin'
 
 export default {
   name: 'NPFRequesterDetails',
 
-  props: {
-    form: {
-      type: Object,
-      required: true,
-    },
-  },
+  mixins: [mixin],
 
   components: {
     RequesterPhoneNumbers,
+  },
+
+  methods: {
+    validateState (attribute) {
+      const { $dirty, $error } = this.v.form.requester[attribute]
+      return $dirty ? !$error : null
+    },
   },
 }
 </script>

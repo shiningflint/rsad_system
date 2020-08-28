@@ -6,22 +6,23 @@
 </template>
 
 <script>
+import { mixin } from './mixin'
+
 export default {
   name: 'NonPackageForm',
 
-  props: {
-    form: {
-      type: Object,
-      required: true
-    },
-    packageItems: {
-      type: Array,
-      required: true
-    },
-  },
+  mixins: [mixin],
 
   methods: {
     onSubmit () {
+      const invalid = (() => {
+        const validator = this.v.form
+        validator.$touch()
+        return validator.$invalid
+      })()
+
+      if (invalid) return
+
       this.$router.push({ name: this.$path.nonPackage.invoice })
     },
   },

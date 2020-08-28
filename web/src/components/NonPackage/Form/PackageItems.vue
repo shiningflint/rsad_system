@@ -38,26 +38,26 @@
       </b-tab>
     </b-tabs>
 
-    <b-button type="button" @click="onFormNext">
+    <p v-show="v.form.package_item_orders.$error">
+      Error: Harus ada minimal satu produk sebelum dilanjutkan
+    </p>
+
+    <b-button
+      type="button"
+      @click="onFormNext"
+    >
       Lanjut ke data almarhum/ah
     </b-button>
   </div>
 </template>
 
 <script>
+import { mixin } from './mixin'
+
 export default {
   name: 'NPFPackageItems',
 
-  props: {
-    form: {
-      type: Object,
-      required: true
-    },
-    packageItems: {
-      type: Array,
-      required: true
-    },
-  },
+  mixins: [mixin],
 
   methods: {
     packageItemOptions (category) {
@@ -65,6 +65,14 @@ export default {
                  .filter(item => item.category === category)
     },
     onFormNext () {
+      const invalid = (() => {
+        const validator = this.v.form.package_item_orders
+        validator.$touch()
+        return validator.$invalid
+      })()
+
+      if (invalid) return
+
       this.$router.push({ name: this.$path.nonPackage.form.deathDetails })
     },
   },

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Vuelidate from 'vuelidate'
 import App from './App.vue'
 import { routes } from './routes'
 import { PATH } from './routes/path'
@@ -15,6 +16,7 @@ import './registerServiceWorker'
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
+Vue.use(Vuelidate)
 Vue.config.productionTip = false
 
 const router = new VueRouter({ routes })
