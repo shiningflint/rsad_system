@@ -3,6 +3,7 @@
     <b-form-datepicker
       :value="dateValue"
       @input="onDateInput"
+      :state="state"
     />
     <b-time
       :value="timeValue"
@@ -36,6 +37,9 @@ export default {
     value: {
       type: String,
       required: true,
+    },
+    state: {
+      type: Boolean,
     },
   },
 

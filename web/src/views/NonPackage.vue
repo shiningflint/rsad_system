@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 import { AllPackageItems } from '../constants/nonPackageProducts'
 import { religions } from '../constants/religions'
 import { formatMoney } from '../utilities/currency'
@@ -22,22 +23,26 @@ export default {
     return {
       form: {
         package_item_orders: [],
-        sex: null,
-        name: '',
-        religion: religions.none,
-        occupation: '',
-        death_date: '',
-        contact_time: '',
-        pickup_time: '',
-        birthplace: '',
-        birthdate: '',
-        address: '',
+        death_record: {
+          sex: null,
+          name: '',
+          religion: religions.none,
+          occupation: '',
+          death_location: '',
+          death_date: '',
+          contact_time: '',
+          pickup_time: '',
+          birthplace: '',
+          birthdate: '',
+          address: '',
+        },
         requester: {
           name: '',
           address: '',
+          email: '',
           phone_numbers: [
             { number: '', variety: 'mobile' },
-          ]
+          ],
         },
       },
     }
@@ -48,6 +53,7 @@ export default {
       return {
         form: this.form,
         packageItems: AllPackageItems,
+        v: this.$v,
       }
     },
     totalPrice () {
@@ -69,23 +75,50 @@ export default {
       return totalPrice
     },
     addOrder () {
-      const orderDetails = []
+      alert('sending form!')
+      // const orderDetails = []
 
-      this.form.package_item_orders.forEach(item => {
-        const result = AllPackageItems.find(a => a.value === item)
-        if (result && result.price) {
-          orderDetails.push({
-            value: result.value,
-            price: result.price,
-          })
-        }
-      })
+      // this.form.package_item_orders.forEach(item => {
+      //   const result = AllPackageItems.find(a => a.value === item)
+      //   if (result && result.price) {
+      //     orderDetails.push({
+      //       value: result.value,
+      //       price: result.price,
+      //     })
+      //   }
+      // })
 
-      this.$db.death_records.put({
-        package_item_orders: orderDetails,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      })
+      // this.$db.death_records.put({
+      //   package_item_orders: orderDetails,
+      //   created_at: new Date().toISOString(),
+      //   updated_at: new Date().toISOString()
+      // })
+    },
+  },
+
+  validations: {
+    form: {
+      package_item_orders: { required, },
+      death_record: {
+        sex: { required, },
+        name: { required, },
+        religion: { required, },
+        death_location: { required, },
+        death_date: { required, },
+        birthdate: { required, },
+        address: { required, },
+      },
+      requester: {
+        name: { required, },
+        address: { required, },
+        phone_numbers: {
+          required,
+          $each: {
+            number: { required, },
+            variety: { required, },
+          },
+        },
+      },
     },
   },
 }
