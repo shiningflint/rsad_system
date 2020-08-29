@@ -20,6 +20,12 @@
         Alamat harus diisi
       </b-form-invalid-feedback>
     </b-form-group>
+    <b-form-group label="Email">
+      <b-form-input
+        id="email"
+        v-model="form.requester.email"
+      />
+    </b-form-group>
     <b-form-group label="No. Telepon">
       <requester-phone-numbers
         v-model="form.requester.phone_numbers"
