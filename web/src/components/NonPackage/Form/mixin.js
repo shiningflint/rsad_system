@@ -8,6 +8,10 @@ export const mixin = {
       type: Array,
       required: true,
     },
+    formLabel: {
+      type: Object,
+      required: true,
+    },
     v: {
       type: Object,
       required: true,

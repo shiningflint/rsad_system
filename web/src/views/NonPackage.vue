@@ -12,12 +12,13 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
-import { AllPackageItems } from '../constants/nonPackageProducts'
-import { religions } from '../constants/religions'
+import { AllPackageItems, religions, sexIsoToWord } from '../constants/nonPackage'
 import { formatMoney } from '../utilities/currency'
+import { PdfPrinter } from '../lib/PdfPrinter'
+import { ClockWizard } from '../lib/ClockWizard'
 
 export default {
-  name: 'PackageView',
+  name: 'NonPackageView',
 
   data () {
     return {
@@ -26,7 +27,7 @@ export default {
         death_record: {
           sex: null,
           name: '',
-          religion: religions.none,
+          religion: religions.none.value,
           occupation: '',
           death_location: '',
           death_date: '',
@@ -45,6 +46,32 @@ export default {
           ],
         },
       },
+      formLabel: {
+        package_item_orders: 'Daftar Produk',
+        death_record: {
+          title: 'Data Almarhum/ah',
+          sex: 'Jenis kelamin',
+          name: 'Nama lengkap',
+          religion: 'Agama',
+          occupation: 'Pekerjaan',
+          death_location: 'Meninggal di',
+          death_date: 'Meninggal pada tanggal dan jam',
+          contact_time: 'Waktu dihubungi jam',
+          pickup_time: 'Jemput/tiba jam',
+          birthplace: 'Lahir di tempat',
+          birthdate: 'Lahir tanggal',
+          address: 'Alamat almarhum/ah',
+        },
+        requester: {
+          title: 'Data Permintaan',
+          name: 'Nama',
+          address: 'Alamat',
+          email: 'Email',
+          phone_numbers: {
+            title: 'No. Telepon',
+          },
+        },
+      },
     }
   },
 
@@ -53,6 +80,7 @@ export default {
       return {
         form: this.form,
         packageItems: AllPackageItems,
+        formLabel: this.formLabel,
         v: this.$v,
       }
     },
@@ -75,7 +103,8 @@ export default {
       return totalPrice
     },
     addOrder () {
-      alert('sending form!')
+      this.printPdf()
+      // console.log("sending form", JSON.parse(JSON.stringify(this.form)))
       // const orderDetails = []
 
       // this.form.package_item_orders.forEach(item => {
@@ -93,6 +122,37 @@ export default {
       //   created_at: new Date().toISOString(),
       //   updated_at: new Date().toISOString()
       // })
+    },
+
+    transformFormValues () {
+      const result = JSON.parse(JSON.stringify(this.form))
+      const clockWizard = new ClockWizard()
+
+      result.death_record.sex = sexIsoToWord[this.form.death_record.sex]
+      result.death_record.religion = religions[this.form.death_record.religion].text
+      result.death_record.death_date = clockWizard.jsonToDateTimeString(this.form.death_record.death_date)
+      result.death_record.contact_time = this.form.death_record.contact_time.substring(0, 5)
+      result.death_record.pickup_time = this.form.death_record.pickup_time.substring(0, 5)
+
+      return result
+    },
+
+    pdfPayload () {
+      const orderedItems = this.form.package_item_orders.map(item => {
+                             return AllPackageItems.find(a => a.value === item)
+                           })
+      const payloadValues = this.transformFormValues()
+
+      return {
+        ...payloadValues,
+        label: this.formLabel,
+        package_item_orders_object: orderedItems,
+      }
+    },
+
+    printPdf () {
+      const printer = new PdfPrinter(this.pdfPayload(), 'NonPackage')
+      printer.press()
     },
   },
 

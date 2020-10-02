@@ -8,6 +8,7 @@
     <b-time
       :value="timeValue"
       :hour12="false"
+      :minutes-step="minutesStep"
       @input="onTimeInput"
     />
   </div>
@@ -40,6 +41,9 @@ export default {
     },
     state: {
       type: Boolean,
+    },
+    minutesStep: {
+      type: [Number, String],
     },
   },
 

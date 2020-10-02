@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import { AllPackageItems } from '../../constants/nonPackageProducts'
+import { AllPackageItems } from '../../constants/nonPackage'
 
 export default {
   name: 'NonPackageInvoice',

@@ -4,6 +4,6 @@
 
 <script>
 export default {
-  name: 'NonPackageView'
+  name: 'PackageView'
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form-group label="Jenis kelamin*">
+    <b-form-group :label="deathRecordLabel.sex">
       <b-form-radio-group
         id="sex"
         name="sex"
@@ -11,11 +11,11 @@
       <b-form-invalid-feedback
         :class="{ 'd-block': validateState('sex') === false }"
       >
-        Jenis kelamin harus diisi
+        {{ deathRecordLabel.sex }} harus diisi
       </b-form-invalid-feedback>
     </b-form-group>
 
-    <b-form-group label="Nama lengkap*">
+    <b-form-group :label="deathRecordLabel.name">
       <b-form-input
         id="name"
         v-model="form.death_record.name"
@@ -23,11 +23,11 @@
         :state="validateState('name')"
       />
       <b-form-invalid-feedback>
-        Nama harus diisi
+        {{ deathRecordLabel.name }} harus diisi
       </b-form-invalid-feedback>
     </b-form-group>
 
-    <b-form-group label="Agama*">
+    <b-form-group :label="deathRecordLabel.religion">
       <b-form-select
         id="religion"
         v-model="form.death_record.religion"
@@ -35,18 +35,18 @@
         :state="validateState('religion')"
       />
       <b-form-invalid-feedback>
-        Agama harus diisi
+        {{ deathRecordLabel.religion }} harus diisi
       </b-form-invalid-feedback>
     </b-form-group>
 
-    <b-form-group label="Pekerjaan">
+    <b-form-group :label="deathRecordLabel.occupation">
       <b-form-input
         id="occupation"
         v-model="form.death_record.occupation"
       />
     </b-form-group>
 
-    <b-form-group label="Meninggal di*">
+    <b-form-group :label="deathRecordLabel.death_location">
       <b-form-textarea
         id="death_location"
         v-model="form.death_record.death_location"
@@ -57,40 +57,43 @@
       </b-form-invalid-feedback>
     </b-form-group>
 
-    <b-form-group label="Meninggal pada tanggal dan jam*">
+    <b-form-group :label="deathRecordLabel.death_date">
       <r-datetime
         v-model="form.death_record.death_date"
         :state="validateState('death_date')"
+        :minutes-step="10"
       />
       <b-form-invalid-feedback
         :class="{ 'd-block': validateState('death_date') === false }"
       >
-        Tanggal dan jam harus diisi
+        {{ deathRecordLabel.death_date }} harus diisi
       </b-form-invalid-feedback>
     </b-form-group>
 
-    <b-form-group label="Waktu dihubungi jam">
+    <b-form-group :label="deathRecordLabel.contact_time">
       <b-time
         v-model="form.death_record.contact_time"
+        :minutes-step="10"
         :hour12="false"
       />
     </b-form-group>
 
-    <b-form-group label="Jemput/tiba jam">
+    <b-form-group :label="deathRecordLabel.pickup_time">
       <b-time
         v-model="form.death_record.pickup_time"
+        :minutes-step="10"
         :hour12="false"
       />
     </b-form-group>
 
-    <b-form-group label="Lahir di tempat">
+    <b-form-group :label="deathRecordLabel.birthplace">
       <b-form-input
         id="birthplace"
         v-model="form.death_record.birthplace"
       />
     </b-form-group>
 
-    <b-form-group label="Lahir tanggal*">
+    <b-form-group :label="deathRecordLabel.birthdate">
       <b-form-datepicker
         id="birthdate"
         v-model="form.death_record.birthdate"
@@ -101,14 +104,14 @@
       </b-form-invalid-feedback>
     </b-form-group>
 
-    <b-form-group label="Alamat almarhum/ah*">
+    <b-form-group :label="deathRecordLabel.address">
       <b-form-textarea
         id="address"
         v-model="form.death_record.address"
         :state="validateState('address')"
       />
       <b-form-invalid-feedback>
-        Alamat harus diisi
+        {{ deathRecordLabel.address }} harus diisi
       </b-form-invalid-feedback>
     </b-form-group>
 
@@ -123,7 +126,7 @@
 </template>
 
 <script>
-import { religions } from '../../../constants/religions'
+import { religions, sexIsoToWord } from '../../../constants/nonPackage'
 import RDatetime from '../../RDatetime'
 import { mixin } from './mixin'
 
@@ -139,18 +142,24 @@ export default {
   data () {
     return {
       sexOptions: [
-        { text: 'Pria', value: 1 },
-        { text: 'Wanita', value: 2 },
+        { text: sexIsoToWord[1], value: 1 },
+        { text: sexIsoToWord[2], value: 2 },
       ],
       religionOptions: [
-        { text: 'Tidak ada', value: religions.none },
-        { text: 'Islam', value: religions.islam },
-        { text: 'Kristen', value: religions.christian },
-        { text: 'Katolik', value: religions.catholic },
-        { text: 'Hindu', value: religions.hindu },
-        { text: 'Buddha', value: religions.buddhist },
+        { text: religions.none.text, value: religions.none.value },
+        { text: religions.islam.text, value: religions.islam.value },
+        { text: religions.christian.text, value: religions.christian.value },
+        { text: religions.catholic.text, value: religions.catholic.value },
+        { text: religions.hindu.text, value: religions.hindu.value },
+        { text: religions.buddhist.text, value: religions.buddhist.value },
       ],
     }
+  },
+
+  computed: {
+    deathRecordLabel () {
+      return this.formLabel.death_record
+    },
   },
 
   methods: {

@@ -126,3 +126,37 @@ export const AllPackageItems = [
   ...facilities,
   ...products
 ]
+
+export const religions = {
+  islam: {
+    value: 'islam',
+    text: 'Islam',
+  },
+  christian: {
+    value: 'christian',
+    text: 'Kristen',
+  },
+  catholic: {
+    value: 'catholic',
+    text: 'Katolik',
+  },
+  hindu: {
+    value: 'hindu',
+    text: 'Hindu',
+  },
+  buddhist: {
+    value: 'buddhist',
+    text: 'Buddha',
+  },
+  none: {
+    value: 'none',
+    text: 'Tidak ada',
+  },
+}
+
+export const sexIsoToWord = {
+  0: 'Tidak diketahui',
+  1: 'Pria',
+  2: 'Wanita',
+  9: 'Tidak relevan',
+}
