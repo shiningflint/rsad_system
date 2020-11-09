@@ -1,6 +1,8 @@
 import {
   parseJSON,
   format,
+  isValid,
+  getYear,
 } from 'date-fns'
 
 export class ClockWizard {
@@ -12,5 +14,13 @@ export class ClockWizard {
 
   todayDateString (formatString) {
     return format(new Date(), formatString)
+  }
+
+  thisYear () {
+    return getYear(new Date())
+  }
+
+  isValidDateString (isoDateString) {
+    return isValid(new Date(isoDateString))
   }
 }

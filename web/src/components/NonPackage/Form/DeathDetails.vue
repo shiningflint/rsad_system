@@ -93,15 +93,17 @@
       />
     </b-form-group>
 
-    <b-form-group :label="deathRecordLabel.birthdate">
-      <b-form-datepicker
+    <b-form-group
+      :label="deathRecordLabel.birthdate"
+      :state="validateState('birthdate')"
+      invalid-feedback='Tanggal harus diisi'
+    >
+      <dropdown-datepicker
         id="birthdate"
         v-model="form.death_record.birthdate"
-        :state="validateState('birthdate')"
+        :yearStart="birthDateYearStart()"
+        :yearEnd="birthDateYearEnd()"
       />
-      <b-form-invalid-feedback>
-        Tanggal harus diisi
-      </b-form-invalid-feedback>
     </b-form-group>
 
     <b-form-group :label="deathRecordLabel.address">
@@ -128,7 +130,9 @@
 <script>
 import { religions, sexIsoToWord } from '../../../constants/nonPackage'
 import RDatetime from '../../RDatetime'
+import DropdownDatepicker from '../../DropdownDatepicker'
 import { mixin } from './mixin'
+import { ClockWizard } from '../../../lib/ClockWizard'
 
 export default {
   name: 'NPFDeathDetails',
@@ -136,7 +140,8 @@ export default {
   mixins: [mixin],
 
   components: {
-    RDatetime
+    RDatetime,
+    DropdownDatepicker,
   },
 
   data () {
@@ -180,6 +185,14 @@ export default {
       if (invalid) return
 
       this.$router.push({ name: this.$path.nonPackage.form.requesterDetails })
+    },
+    birthDateYearStart () {
+      const clockWizard = new ClockWizard()
+      return clockWizard.thisYear() - 100
+    },
+    birthDateYearEnd () {
+      const clockWizard = new ClockWizard()
+      return clockWizard.thisYear()
     },
   },
 }
