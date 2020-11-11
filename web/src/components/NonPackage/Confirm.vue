@@ -8,8 +8,11 @@
       </b-form-checkbox>
     </b-form-group>
 
+    <hr class="confirm-hr" />
+
     <b-form-group>
       <b-button
+        class="confirm-button"
         type="submit"
         :disabled="isInvalid"
       >

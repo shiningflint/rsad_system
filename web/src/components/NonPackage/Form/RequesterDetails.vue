@@ -37,12 +37,16 @@
         {{ requesterLabel.phone_numbers.title }} harus minimal satu
       </b-form-invalid-feedback>
     </b-form-group>
+
+    <hr class="confirm-hr" />
+
+    <b-button type="submit" class="confirm-button">Konfirmasi</b-button>
   </div>
 </template>
 
 <script>
 import RequesterPhoneNumbers from './RequesterPhoneNumbers'
-import { mixin } from './mixin'
+import { mixin } from '../mixin'
 
 export default {
   name: 'NPFRequesterDetails',

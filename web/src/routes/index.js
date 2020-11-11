@@ -1,5 +1,5 @@
 import { PATH } from './path'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 import Orders from '../views/Orders/index.vue'
 import OrdersShow from '../views/Orders/Show.vue'
 import Package from '../views/Package.vue'
@@ -13,10 +13,16 @@ import NonPackageConfirm from '../components/NonPackage/Confirm'
 import NonPackageDone from '../components/NonPackage/Done'
 
 export const routes = [
+  // {
+  //   path: '/',
+  //   component: Home,
+  //   name: PATH.home,
+  // },
   {
     path: '/',
-    component: Home,
-    name: PATH.home,
+    redirect: {
+      name: PATH.nonPackage.form.deathDetails,
+    },
   },
   {
     path: '/orders',

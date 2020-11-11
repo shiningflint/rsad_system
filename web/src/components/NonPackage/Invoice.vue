@@ -1,46 +1,49 @@
 <template>
   <div>
-    <h1>Invoice</h1>
-    <div>
-      <p>Layanan yang dipilih</p>
-      <ul>
-        <li
-          v-for="(service, index) in selectedPackageItem('service')"
-          :key="index"
-        >
-          {{ service.text }} - {{ service.price }}
-        </li>
-      </ul>
-    </div>
+    <!--
+      <h1>Invoice</h1>
+      <div>
+        <p>Layanan yang dipilih</p>
+        <ul>
+          <li
+            v-for="(service, index) in selectedPackageItem('service')"
+            :key="index"
+          >
+            {{ service.text }} - {{ service.price }}
+          </li>
+        </ul>
+      </div>
 
-    <div>
-      <p>Fasilitas yang dipilih</p>
-      <ul>
-        <li
-          v-for="(facility, index) in selectedPackageItem('facility')"
-          :key="index"
-        >
-          {{ facility.text }} - {{ facility.price }}
-        </li>
-      </ul>
-    </div>
+      <div>
+        <p>Fasilitas yang dipilih</p>
+        <ul>
+          <li
+            v-for="(facility, index) in selectedPackageItem('facility')"
+            :key="index"
+          >
+            {{ facility.text }} - {{ facility.price }}
+          </li>
+        </ul>
+      </div>
 
-    <div>
-      <p>Produk yang dipilih</p>
-      <ul>
-        <li
-          v-for="(product, index) in selectedPackageItem('product')"
-          :key="index"
-        >
-          {{ product.text }} - {{ product.price }}
-        </li>
-      </ul>
-    </div>
+      <div>
+        <p>Produk yang dipilih</p>
+        <ul>
+          <li
+            v-for="(product, index) in selectedPackageItem('product')"
+            :key="index"
+          >
+            {{ product.text }} - {{ product.price }}
+          </li>
+        </ul>
+      </div>
 
-    <hr />
+      <hr />
+    -->
+
     <h3>Daftar kematian</h3>
     <div class="text-left">
-      <p v-for="(value, key) in form.death_record" :key="key">
+      <p v-for="(value, key) in translatedDeathRecord(form.death_record)" :key="key">
         <span>{{ `${t.death_record[key]}:` }}</span><br />
         <span>{{ `${value}` }}</span>
       </p>
@@ -62,28 +65,28 @@
       </p>
     </div>
 
+    <hr class="confirm-hr" />
+
     <b-button
+      class="confirm-button"
       type="button"
       :disabled="isInvalid"
       @click="onConfirm"
     >
-      Konfirmasi
+      Download PDF
     </b-button>
   </div>
 </template>
 
 <script>
 import { AllPackageItems } from '../../constants/nonPackage'
+import { translatedDeathRecord } from './Utilities'
+import { mixin } from './mixin'
 
 export default {
   name: 'NonPackageInvoice',
 
-  props: {
-    form: {
-      type: Object,
-      required: true
-    },
-  },
+  mixins: [mixin],
 
   data () {
     return {
@@ -113,13 +116,21 @@ export default {
 
   computed: {
     isInvalid () {
-      return this.form.package_item_orders.length === 0
+      const invalid = (() => {
+        const validator = this.v.form
+        validator.$touch()
+        return validator.$invalid
+      })()
+
+      return invalid
     },
   },
 
   methods: {
+    translatedDeathRecord,
     onConfirm () {
-      this.$router.push({ name: this.$path.nonPackage.confirm })
+      // this.$router.push({ name: this.$path.nonPackage.confirm })
+      this.$emit('addOrder')
     },
     selectedPackageItem (category) {
       const result = this.form.package_item_orders

@@ -131,7 +131,7 @@
 import { religions, sexIsoToWord } from '../../../constants/nonPackage'
 import RDatetime from '../../RDatetime'
 import DropdownDatepicker from '../../DropdownDatepicker'
-import { mixin } from './mixin'
+import { mixin } from '../mixin'
 import { ClockWizard } from '../../../lib/ClockWizard'
 
 export default {

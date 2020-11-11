@@ -1,12 +1,11 @@
 <template>
   <b-form @submit.prevent="onSubmit">
     <router-view v-bind="$props" class="mb-3" />
-    <b-button type="submit">Confirm</b-button>
   </b-form>
 </template>
 
 <script>
-import { mixin } from './mixin'
+import { mixin } from '../mixin'
 
 export default {
   name: 'NonPackageForm',

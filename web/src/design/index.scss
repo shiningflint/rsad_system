@@ -37,3 +37,22 @@ img {
     border: 2px solid $body-bg-color;
   }
 }
+
+.confirm-hr {
+  border-top: 1px solid #ced5c0;
+}
+
+.confirm-button {
+  background-color: #EEE;
+  color: #1d0f26;
+  border: none;
+  box-shadow: 0 5px 0 #1d0f26;
+  transition: none;
+
+  &.btn-secondary:not(:disabled):not(.disabled):active {
+    background-color: #EEE;
+    color: #1d0f26;
+    transform: translateY(5px);
+    box-shadow: 0 0 0 #1d0f26;
+  }
+}

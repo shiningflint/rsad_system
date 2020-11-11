@@ -1,12 +1,16 @@
 <template>
   <div>
     <h2>Non Paket</h2>
-    <router-view
-      class="mb-3"
-      v-bind="pageProps"
-      @addOrder="addOrder"
-    />
-    <div>Total price: Rp {{ totalPrice }}</div>
+
+    <div class="p-3">
+      <router-view
+        class="mb-3"
+        v-bind="pageProps"
+        @addOrder="addOrder"
+      />
+    </div>
+
+    <!-- <div>Total price: Rp {{ totalPrice }}</div> -->
   </div>
 </template>
 
@@ -104,7 +108,6 @@ export default {
     },
     addOrder () {
       this.printPdf()
-      // console.log("sending form", JSON.parse(JSON.stringify(this.form)))
       // const orderDetails = []
 
       // this.form.package_item_orders.forEach(item => {
@@ -158,7 +161,7 @@ export default {
 
   validations: {
     form: {
-      package_item_orders: { required, },
+      // package_item_orders: { required, },
       death_record: {
         sex: { required, },
         name: { required, },

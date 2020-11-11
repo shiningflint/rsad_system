@@ -126,18 +126,21 @@ export function NonPackage (printer) {
   }
 
   methods.printSignature()
-  methods.printFooter(1)
+
+  // Skip printing the page
+  // methods.printFooter(1)
 
   // page 2 content
 
-  const itemOrders = _get(model, 'package_item_orders')
-  if (itemOrders && itemOrders.length) {
-    printer.newPage()
+  // Skip page 2 for later
+  // const itemOrders = _get(model, 'package_item_orders')
+  // if (itemOrders && itemOrders.length) {
+  //   printer.newPage()
 
-    methods.printHeader()
-    methods.printPackageItemOrders(model.package_item_orders_object)
-    methods.printFooter(2)
-  }
+  //   methods.printHeader()
+  //   methods.printPackageItemOrders(model.package_item_orders_object)
+  //   methods.printFooter(2)
+  // }
 
   return
 }
