@@ -6,6 +6,7 @@ import { routes } from './routes'
 import { PATH } from './routes/path'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import { db } from './db'
+import { store } from './store'
 
 // CSS
 import 'bootstrap/dist/css/bootstrap.css'
@@ -27,4 +28,5 @@ Vue.prototype.$path = PATH
 new Vue({
   render: h => h(App),
   router,
+  store: store
 }).$mount('#app')

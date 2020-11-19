@@ -7,6 +7,7 @@
 
 <script>
 import AppHeader from './components/AppHeader'
+
 export default {
   name: 'App',
 
@@ -18,7 +19,11 @@ export default {
     showHeader () {
       return this.$route.matched.find(r => r.meta.showHeader)
     }
-  }
+  },
+
+  created () {
+    this.$store.dispatch('initImages')
+  },
 }
 </script>
 
