@@ -3,6 +3,7 @@ import { PATH } from './path'
 import Orders from '../views/Orders/index.vue'
 import OrdersShow from '../views/Orders/Show.vue'
 import Package from '../views/Package.vue'
+import Sync from '../views/Sync.vue'
 import NonPackage from '../views/NonPackage.vue'
 import NonPackageForm from '../components/NonPackage/Form/index'
 import NPFPackageItems from '../components/NonPackage/Form/PackageItems'
@@ -37,6 +38,11 @@ export const routes = [
   {
     path: '/package',
     component: Package,
+    meta: { showHeader: true },
+  },
+  {
+    path: '/sync',
+    component: Sync,
     meta: { showHeader: true },
   },
   {
