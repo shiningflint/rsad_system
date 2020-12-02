@@ -4,6 +4,12 @@
     <button type="button" @click="onSyncClick">
       sync
     </button>
+    <button type="button" @click="onLoginClick">
+      login
+    </button>
+    <button type="button" @click="onLogoutClick">
+      logout
+    </button>
     <p v-show="error">
       {{ this.error }}
     </p>
@@ -19,22 +25,32 @@ export default {
   data () {
     return {
       error: '',
+      gdriveManager: null,
     }
   },
 
   methods: {
     onSyncClick () {
       this.error = ''
+      this.gdriveManager.run()
+    },
+
+    onLoginClick () {
+      this.error = ''
+      this.gdriveManager.login()
+    },
+
+    onLogoutClick () {
+      this.error = ''
+      this.gdriveManager.logout()
+    },
+  },
+
+  created () {
       const errorHandler = (errorString) => {
         this.error = errorString
       }
-      const gdriveManager = new GdriveManager(errorHandler)
-
-      gdriveManager.run()
-
-      console.log('gdrive manager', gdriveManager)
-    },
+      this.gdriveManager = new GdriveManager(errorHandler)
   },
 }
 </script>
-

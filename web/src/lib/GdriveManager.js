@@ -1,24 +1,28 @@
-// refer to documentation: https://developers.google.com/sheets/api/quickstart/js#python-3.x
+// refer to documentation: https://developers.google.com/sheets/api/quickstart/js
 
 import { scriptLoader } from '../utilities/loader'
+// import { FinancialReport } from './GdriveManager/FinancialReport'
 import _get from 'lodash/get'
 
+// GdriveManager will be responsible to:
+// - load google API
+// - Auth to google API using oauth2
+// - Execute one strategy: (FinancialReport)
 export class GdriveManager {
   constructor (errorHandler) {
     // TODO: move client id & api key, script source to env variable
     this.errorHandler = errorHandler
     this.scriptSrc = process.env.VUE_APP_GOOGLE_SRC
-    this.isOnline = _get(window, 'navigator.onLine')
     this.gapi = _get(window, 'gapi')
     this.clientId = process.env.VUE_APP_GOOGLE_CLIENT_ID
     this.apiKey = process.env.VUE_APP_GOOGLE_API_KEY
-    this.discoveryDocs = [process.env.VUE_APP_GOOGLE_DISCOVERY_DOCS]
+    this.discoveryDocs = ['https://sheets.googleapis.com/$discovery/rest?version=v4']
     this.scope = 'https://www.googleapis.com/auth/spreadsheets.readonly'
     this.isSignedIn = false
   }
 
   run = () => {
-    if (!this.isOnline) {
+    if (!this._isOnline()) {
       return this.errorHandler('Tidak ada koneksi internet')
     }
 
@@ -26,12 +30,39 @@ export class GdriveManager {
       scriptLoader(this.scriptSrc, this._onScriptLoaded)
     } else if (this._isAuthenticated()) {
       console.log('already loaded and authenticated, good to go')
+      this._startSync()
     }
 
     return
   }
 
+  login = () => {
+    if (!this._isOnline()) {
+      return this.errorHandler('Tidak ada koneksi internet')
+    }
+
+    this.gapi.auth2.getAuthInstance().signIn()
+  }
+
+  logout = () => {
+    if (!this._isOnline()) {
+      return this.errorHandler('Tidak ada koneksi internet')
+    }
+
+    this.gapi.auth2.getAuthInstance().signOut()
+  }
+
   // private
+
+  _isOnline = () => {
+    return _get(window, 'navigator.onLine')
+  }
+
+  _startSync = () => {
+    console.log('start syncing')
+    // const financialReport = new FinancialReport(this)
+    // financialReport.run()
+  }
 
   _onScriptLoaded = () => {
     this.gapi = window.gapi
@@ -48,9 +79,9 @@ export class GdriveManager {
     }
 
     const onInitSuccess = () => {
-      console.log('on init success!!! 🍌')
       this.gapi.auth2.getAuthInstance().isSignedIn.listen(this._updateSigninStatus)
       this._updateSigninStatus(this._isAuthenticated())
+      this._startSync()
     }
 
     const onInitError = (error) => {
