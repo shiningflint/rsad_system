@@ -1,7 +1,7 @@
 // refer to documentation: https://developers.google.com/sheets/api/quickstart/js
 
 import { scriptLoader } from '../utilities/loader'
-// import { FinancialReport } from './GdriveManager/FinancialReport'
+import { FinancialReport } from './GdriveManager/FinancialReport'
 import _get from 'lodash/get'
 
 // GdriveManager will be responsible to:
@@ -17,7 +17,7 @@ export class GdriveManager {
     this.clientId = process.env.VUE_APP_GOOGLE_CLIENT_ID
     this.apiKey = process.env.VUE_APP_GOOGLE_API_KEY
     this.discoveryDocs = ['https://sheets.googleapis.com/$discovery/rest?version=v4']
-    this.scope = 'https://www.googleapis.com/auth/spreadsheets.readonly'
+    this.scope = 'https://www.googleapis.com/auth/spreadsheets'
     this.isSignedIn = false
   }
 
@@ -60,8 +60,8 @@ export class GdriveManager {
 
   _startSync = () => {
     console.log('start syncing')
-    // const financialReport = new FinancialReport(this)
-    // financialReport.run()
+    const financialReport = new FinancialReport(this)
+    financialReport.run()
   }
 
   _onScriptLoaded = () => {
