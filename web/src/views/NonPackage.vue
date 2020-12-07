@@ -10,6 +10,12 @@
       />
     </div>
 
+    <!--
+    <div>
+      <button type="button" @click="debugAddOrder">Debug save locally</button>
+    </div>
+    -->
+
     <!-- <div>Total price: Rp {{ totalPrice }}</div> -->
   </div>
 </template>
@@ -21,6 +27,7 @@ import { AllPackageItems, religions, sexIsoToWord } from '../constants/nonPackag
 import { formatMoney } from '../utilities/currency'
 import { PdfPrinter } from '../lib/PdfPrinter'
 import { ClockWizard } from '../lib/ClockWizard'
+// import { nonPackageForm } from '../documentation/NonPackageForm'
 
 export default {
   name: 'NonPackageView',
@@ -113,25 +120,14 @@ export default {
 
       return totalPrice
     },
+
+    // debugAddOrder () {
+    //   this.saveLocally()
+    // },
+
     addOrder () {
+      this.saveLocally()
       this.printPdf()
-      // const orderDetails = []
-
-      // this.form.package_item_orders.forEach(item => {
-      //   const result = AllPackageItems.find(a => a.value === item)
-      //   if (result && result.price) {
-      //     orderDetails.push({
-      //       value: result.value,
-      //       price: result.price,
-      //     })
-      //   }
-      // })
-
-      // this.$db.death_records.put({
-      //   package_item_orders: orderDetails,
-      //   created_at: new Date().toISOString(),
-      //   updated_at: new Date().toISOString()
-      // })
     },
 
     transformFormValues () {
@@ -164,6 +160,16 @@ export default {
     printPdf () {
       const printer = new PdfPrinter(this.pdfPayload(), 'NonPackage')
       printer.press()
+    },
+
+    saveLocally () {
+      this.$localDb.saveNonPackage(this.form)
+      .then(() => {
+        console.log('saved successfully')
+      })
+      .catch(err => {
+        console.warn('local save error', err)
+      })
     },
   },
 

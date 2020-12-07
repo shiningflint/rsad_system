@@ -5,7 +5,7 @@ import App from './App.vue'
 import { routes } from './routes'
 import { PATH } from './routes/path'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
-import { db } from './db'
+import { IndexeddbManager} from './lib/IndexeddbManager'
 import { store } from './store'
 import { setGlobalRouteGuard } from './GlobalRouteGuard'
 import { InitialSetup } from './InitialSetup'
@@ -25,7 +25,7 @@ Vue.config.productionTip = false
 const router = new VueRouter({ routes })
 setGlobalRouteGuard(router)
 
-Vue.prototype.$db = db
+Vue.prototype.$localDb = new IndexeddbManager
 Vue.prototype.$path = PATH
 
 const initialStep = new InitialSetup(store)
