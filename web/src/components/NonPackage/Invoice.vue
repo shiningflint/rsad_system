@@ -73,7 +73,7 @@
       :disabled="isInvalid"
       @click="onConfirm"
     >
-      Download PDF
+      Simpan PDF
     </b-button>
   </div>
 </template>
