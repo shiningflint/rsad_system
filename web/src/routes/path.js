@@ -1,5 +1,6 @@
 export const PATH = {
   home: 'HOME',
+  FacilitySelect: 'FacilitySelect',
   nonPackage: {
     form: {
       index: 'NonPackageForm',
@@ -10,5 +11,5 @@ export const PATH = {
     invoice: 'NonPackageInvoice',
     confirm: 'NonPackageConfirm',
     done: 'NonPackageDone',
-  }
+  },
 }

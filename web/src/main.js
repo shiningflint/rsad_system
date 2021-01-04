@@ -7,6 +7,8 @@ import { PATH } from './routes/path'
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import { db } from './db'
 import { store } from './store'
+import { setGlobalRouteGuard } from './GlobalRouteGuard'
+import { InitialSetup } from './InitialSetup'
 
 // CSS
 import 'bootstrap/dist/css/bootstrap.css'
@@ -21,12 +23,17 @@ Vue.use(Vuelidate)
 Vue.config.productionTip = false
 
 const router = new VueRouter({ routes })
+setGlobalRouteGuard(router)
 
 Vue.prototype.$db = db
 Vue.prototype.$path = PATH
 
-new Vue({
-  render: h => h(App),
-  router,
-  store: store
-}).$mount('#app')
+const initialStep = new InitialSetup(store)
+initialStep.run()
+.then(() => {
+  new Vue({
+    render: h => h(App),
+    router,
+    store: store
+  }).$mount('#app')
+})
