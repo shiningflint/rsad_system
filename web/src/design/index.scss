@@ -25,7 +25,8 @@ img {
   background-color: white;
   color: black;
   box-shadow: 6px 6px 0 0 black;
-  padding:16px;
+  padding: 16px;
+  border: none;
 
   &::before {
     content: '';
