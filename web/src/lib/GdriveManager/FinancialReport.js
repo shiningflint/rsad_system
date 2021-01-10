@@ -1,12 +1,14 @@
-import _get from 'lodash/get'
-import { isNumber } from '../../utilities/type'
+import { Reader } from './FinancialReport/Reader'
 
 // FinancialReport is responsible for
 // Take order data and insert to google sheet rows
+// TODO: Separate to subclass Reader and Writer
 export class FinancialReport {
   constructor (manager) {
     this.manager = manager
+    this.reader = new Reader(this)
     this.sheetId = process.env.VUE_APP_GOOGLE_SHEET_ID
+    this.reportData = null
     this.startRow = null
     this.cellColors = {
       black: {
@@ -16,9 +18,9 @@ export class FinancialReport {
         alpha: 1,
       },
       grey: {
-        red: 0.8549019607843137,
-        green: 0.8549019607843137,
-        blue: 0.85490196078431370,
+        red: 0.85490197,
+        green: 0.85490197,
+        blue: 0.85490197,
         alpha: 1,
       },
       green: {
@@ -28,6 +30,10 @@ export class FinancialReport {
         alpha: 1,
       },
       yellow: {
+        red: 1,
+        green: 1,
+      },
+      pastelYellow: {
         red: 1,
         green: 0.8980392156862745,
         blue: 0.596078431372549,
@@ -49,36 +55,23 @@ export class FinancialReport {
   // Insert row on each saved indexed data to branch B
   run = () => {
     const month = 'Aug'
-    const firstColumn = '5'
+    const firstColumn = '1'
     const maxColumn = '500'
 
+    // TODO: move api calling responsability to gmanager. Wrap it to it's own API
     this.manager.gapi.client.sheets.spreadsheets.get({
       spreadsheetId: this.sheetId,
       ranges: `${month}!A${firstColumn}:A${maxColumn}`,
       includeGridData: true,
     }).then((response) => {
-      this.startRow = _get(response, 'result.sheets.0.data.0.startRow')
-      const rowData = _get(response, 'result.sheets.0.data.0.rowData')
-      const lastRowBranchB = this._lastRowBranchB(rowData)
-      console.log(lastRowBranchB)
+      this.reportData = response
+      this.reader.run()
 
-      this._insertRowData()
+      // this._insertRowData()
     })
   }
 
   // private
-
-  // The last row of the sheet is 'TOTAL'
-  // return the last row - 1 of the sheet
-  _lastRowBranchB = (data) => {
-    if (!data ||
-        !data.length ||
-        !this.startRow ||
-        !isNumber(this.startRow)
-       ) return 0
-
-    return data.length + this.startRow - 1
-  }
 
   _insertRowData = () => {
     console.log('inserting row data', this.manager.gapi.client.sheets.spreadsheets.batchUpdate)
@@ -129,19 +122,19 @@ export class FinancialReport {
       const colors = [
         'green',
         'green',
-        'yellow',
+        'pastelYellow',
         'green',
-        'yellow',
-        'yellow',
+        'pastelYellow',
+        'pastelYellow',
         'green',
-        'yellow',
-        'yellow',
+        'pastelYellow',
+        'pastelYellow',
         'green',
-        'yellow',
-        'yellow',
+        'pastelYellow',
+        'pastelYellow',
         'green',
-        'yellow',
-        'yellow',
+        'pastelYellow',
+        'pastelYellow',
         'grey',
       ]
 
