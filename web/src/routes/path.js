@@ -1,6 +1,7 @@
 export const PATH = {
   home: 'HOME',
   FacilitySelect: 'FacilitySelect',
+  Info: 'Info',
   nonPackage: {
     form: {
       index: 'NonPackageForm',
