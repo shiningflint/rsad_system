@@ -1,6 +1,7 @@
 import { PATH } from './path'
 // import Home from '../views/Home.vue'
 import FacilitySelect from '../views/FacilitySelect.vue'
+import Info from '../views/Info.vue'
 import Orders from '../views/Orders/index.vue'
 import OrdersShow from '../views/Orders/Show.vue'
 import Package from '../views/Package.vue'
@@ -25,6 +26,12 @@ export const routes = [
     redirect: {
       name: PATH.nonPackage.form.deathDetails,
     },
+  },
+  {
+    path: '/info',
+    component: Info,
+    name: PATH.Info,
+    meta: { showHeader: true },
   },
   {
     path: '/facility_select',
