@@ -24,4 +24,8 @@ export class IndexeddbManager {
     const value = form
     return this.save('orders', value)
   }
+
+  getAll = async () => {
+    return await this.db.orders.toArray()
+  }
 }

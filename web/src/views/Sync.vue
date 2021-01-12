@@ -31,8 +31,11 @@ export default {
 
   methods: {
     onSyncClick () {
-      this.error = ''
-      this.gdriveManager.run()
+      this.$localDb.getAll()
+      .then((orders) => {
+        this.error = ''
+        this.gdriveManager.run(orders)
+      })
     },
 
     onLoginClick () {
