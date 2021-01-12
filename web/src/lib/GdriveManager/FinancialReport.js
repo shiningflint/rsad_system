@@ -1,12 +1,15 @@
 import { Reader } from './FinancialReport/Reader'
+import { Writer } from './FinancialReport/Writer'
 
 // FinancialReport is responsible for
 // Take order data and insert to google sheet rows
 // TODO: Separate to subclass Reader and Writer
 export class FinancialReport {
-  constructor (manager) {
+  constructor (manager, syncPayload) {
     this.manager = manager
+    this.syncPayload = syncPayload
     this.reader = new Reader(this)
+    this.writer = new Writer(this)
     this.sheetId = process.env.VUE_APP_GOOGLE_SHEET_ID
     this.reportData = null
     this.startRow = null
@@ -15,19 +18,16 @@ export class FinancialReport {
         red: 0,
         green: 0,
         blue: 0,
-        alpha: 1,
       },
       grey: {
         red: 0.85490197,
         green: 0.85490197,
         blue: 0.85490197,
-        alpha: 1,
       },
       green: {
         red: 0.7725490196078432,
         green: 0.8784313725490196,
         blue: 0.7019607843137254,
-        alpha: 1,
       },
       yellow: {
         red: 1,
@@ -37,7 +37,6 @@ export class FinancialReport {
         red: 1,
         green: 0.8980392156862745,
         blue: 0.596078431372549,
-        alpha: 1,
       },
     }
     this.cellBorders = {
@@ -54,20 +53,21 @@ export class FinancialReport {
   // Insert row on each saved indexed data to branch A
   // Insert row on each saved indexed data to branch B
   run = () => {
-    const month = 'Aug'
+    const month = 'May'
     const firstColumn = '1'
     const maxColumn = '500'
 
-    // TODO: move api calling responsability to gmanager. Wrap it to it's own API
-    this.manager.gapi.client.sheets.spreadsheets.get({
+    this.manager.getSpreadsheet({
       spreadsheetId: this.sheetId,
       ranges: `${month}!A${firstColumn}:A${maxColumn}`,
       includeGridData: true,
     }).then((response) => {
       this.reportData = response
-      this.reader.run()
+      return this.reader.run()
 
       // this._insertRowData()
+    }).then(() => {
+      this.writer.run()
     })
   }
 

@@ -1,10 +1,10 @@
 import _get from 'lodash/get'
 import _isEqual from 'lodash/isEqual'
-import { isNumber } from '../../../utilities/type'
 
 export class Reader {
   constructor (financialReport) {
     this.financialReport = financialReport
+    this.sheetState = null
     this.yellowSeparator = null
     this.lastRowRsad = null
     this.lastRowDy = null
@@ -13,25 +13,56 @@ export class Reader {
   run = () => {
     const reportData = this.financialReport.reportData
     const rowData = _get(reportData, 'result.sheets.0.data.0.rowData')
-    const startRow = _get(reportData, 'result.sheets.0.data.0.startRow')
 
     console.log(reportData)
 
-    this._setYellowSeparator(rowData)
+    this._setSheetState(rowData)
+
+    if (this.sheetState) this.sheetState(rowData)
+
     console.log('yellow separator: ', this.yellowSeparator)
-    this._setLastRowRsad()
-    this._setLastRowDy(rowData, startRow)
+    console.log('last row rsad', this.lastRowRsad)
+    console.log('last row dy', this.lastRowDy)
   }
 
   // private
 
-  // if no yellow separator, return null
-  // if present, return the object
-  _setYellowSeparator = (rowData) => {
-    if (!rowData ||
-        !rowData.length
-       ) return this.yellowSeparator = null
+  // Read the state of the sheet.
+  // return the sheet state strategy
+  // return [function]
+  _setSheetState = (rowData) => {
+    const isSheetBlank = !rowData || !rowData.length
+    if (isSheetBlank) return this.sheetState = this._sheetBlank
 
+    this._setYellowSeparator(rowData)
+
+    const isRsadOnly = rowData && rowData.length && !this.yellowSeparator
+    if (isRsadOnly) return this.sheetState = this._sheetRsadOnly
+
+    const isRsadDy = rowData && rowData.length && this.yellowSeparator
+    if (isRsadDy) return this.sheetState = this._sheetRsadDy
+
+    return this.sheetState = null
+  }
+
+  // current states = 3
+  // blank, rsad only, both rsad & dy
+  _sheetBlank = () => {
+    this.lastRowRsad = 1
+    this.lastRowDy = null
+  }
+
+  _sheetRsadOnly = (rowData) => {
+    this.lastRowRsad = this._getLastRowRsad(rowData)
+    this.lastRowDy = null
+  }
+
+  _sheetRsadDy = (rowData) => {
+    this.lastRowRsad = this._getLastRowRsad(rowData)
+    this.lastRowDy = this._getLastRowDy(rowData)
+  }
+
+  _setYellowSeparator = (rowData) => {
     const colorColumns = rowData.map(data => {
       return _get(data, 'values.0.userEnteredFormat.backgroundColor')
     })
@@ -41,22 +72,6 @@ export class Reader {
     return this.yellowSeparator = ( yellowCellRowIndex + 1 ) || null
   }
 
-  _setLastRowRsad = () => {
-    console.log('get last row rsad')
-  }
-
-  // The last row of the sheet is 'TOTAL'
-  // return the last row - 1 of the sheet
-  _setLastRowDy = (rowData, startRow) => {
-    if (!rowData ||
-        !rowData.length ||
-        !startRow ||
-        !isNumber(startRow)
-       ) return this.lastRowDy = null
-
-    return this.lastRowDy = rowData.length + startRow - 1
-  }
-
   _isYellow = (colorObj) => {
     const yellow = {
       red: 1,
@@ -64,5 +79,41 @@ export class Reader {
     }
 
     return _isEqual(colorObj, yellow)
+  }
+
+  _getLastRowRsad = (rowData) => {
+    if (this.yellowSeparator) {
+      return this.yellowSeparator
+    } else {
+      const value = this._lastGreyIndex(rowData)
+      return value ? value + 2 : null
+    }
+  }
+
+  _getLastRowDy = (rowData) => {
+    return rowData.length
+  }
+
+  _lastGreyIndex = (rowData) => {
+    const gray = {
+      red: 0.85490197,
+      green: 0.85490197,
+      blue: 0.85490197,
+    }
+
+    const colorColumns = rowData
+      .map((data, index) => {
+        const d = _get(data, 'values.0.userEnteredFormat.backgroundColor')
+        return { ...d, index }
+      })
+      .filter(data => {
+        return (
+          data['red'] === gray['red'] &&
+          data['green'] === gray['green'] &&
+          data['blue'] === gray['blue']
+        )
+      })
+
+    return colorColumns.slice(-1)[0]['index']
   }
 }

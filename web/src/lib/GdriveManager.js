@@ -1,7 +1,7 @@
 // refer to documentation: https://developers.google.com/sheets/api/quickstart/js
 
-import { scriptLoader } from '../utilities/loader'
 import { FinancialReport } from './GdriveManager/FinancialReport'
+import { ScriptInit } from './GdriveManager/ScriptInit'
 import _get from 'lodash/get'
 
 // GdriveManager will be responsible to:
@@ -10,30 +10,46 @@ import _get from 'lodash/get'
 // - Execute one strategy: (FinancialReport)
 export class GdriveManager {
   constructor (errorHandler) {
-    // TODO: move client id & api key, script source to env variable
     this.errorHandler = errorHandler
-    this.scriptSrc = process.env.VUE_APP_GOOGLE_SRC
     this.gapi = _get(window, 'gapi')
-    this.clientId = process.env.VUE_APP_GOOGLE_CLIENT_ID
-    this.apiKey = process.env.VUE_APP_GOOGLE_API_KEY
-    this.discoveryDocs = ['https://sheets.googleapis.com/$discovery/rest?version=v4']
-    this.scope = 'https://www.googleapis.com/auth/spreadsheets'
     this.isSignedIn = false
+    this.syncPayload = null
   }
 
-  run = () => {
+  run = (syncPayload) => {
     if (!this._isOnline()) {
       return this.errorHandler('Tidak ada koneksi internet')
     }
 
+    this.syncPayload = syncPayload
+
     if (!this.gapi) {
-      scriptLoader(this.scriptSrc, this._onScriptLoaded)
+      const scriptInit = new ScriptInit(this)
+      scriptInit.run()
     } else if (this._isAuthenticated()) {
       console.log('already loaded and authenticated, good to go')
       this._startSync()
     }
 
     return
+  }
+
+  setGapi= (gapi) => {
+    return this.gapi = gapi
+  }
+
+  getGapi = () => {
+    return this.gapi
+  }
+
+  onInitSuccess = () => {
+    this.gapi.auth2.getAuthInstance().isSignedIn.listen(this._updateSigninStatus)
+    this._updateSigninStatus(this._isAuthenticated())
+    this._startSync()
+  }
+
+  onInitError = (error) => {
+    this.errorHandler(error)
   }
 
   login = () => {
@@ -52,6 +68,10 @@ export class GdriveManager {
     this.gapi.auth2.getAuthInstance().signOut()
   }
 
+  getSpreadsheet = (attrs) => {
+    return this.gapi.client.sheets.spreadsheets.get(attrs)
+  }
+
   // private
 
   _isOnline = () => {
@@ -60,36 +80,8 @@ export class GdriveManager {
 
   _startSync = () => {
     console.log('start syncing')
-    const financialReport = new FinancialReport(this)
+    const financialReport = new FinancialReport(this, this.syncPayload)
     financialReport.run()
-  }
-
-  _onScriptLoaded = () => {
-    this.gapi = window.gapi
-    return this.gapi.load('client:auth2', this._initClient)
-  }
-
-  _initClient = () => {
-    console.log('init client private function')
-    const settings = {
-      apiKey: this.apiKey,
-      clientId: this.clientId,
-      discoveryDocs: this.discoveryDocs,
-      scope: this.scope
-    }
-
-    const onInitSuccess = () => {
-      this.gapi.auth2.getAuthInstance().isSignedIn.listen(this._updateSigninStatus)
-      this._updateSigninStatus(this._isAuthenticated())
-      this._startSync()
-    }
-
-    const onInitError = (error) => {
-      this.errorHandler(error)
-    }
-
-    return this.gapi.client.init(settings)
-           .then(onInitSuccess, onInitError)
   }
 
   _isAuthenticated = () => {
