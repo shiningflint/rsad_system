@@ -16,6 +16,7 @@
 
 <script>
 import { required } from 'vuelidate/lib/validators'
+import { mapGetters } from 'vuex'
 import { AllPackageItems, religions, sexIsoToWord } from '../constants/nonPackage'
 import { formatMoney } from '../utilities/currency'
 import { PdfPrinter } from '../lib/PdfPrinter'
@@ -29,6 +30,7 @@ export default {
       form: {
         package_item_orders: [],
         death_record: {
+          facility: null,
           sex: null,
           name: '',
           religion: religions.none.value,
@@ -54,6 +56,7 @@ export default {
         package_item_orders: 'Daftar Produk',
         death_record: {
           title: 'Data Almarhum/ah',
+          facility: 'Rumah Duka',
           sex: 'Jenis kelamin',
           name: 'Nama lengkap',
           religion: 'Agama',
@@ -80,6 +83,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters({
+      facility: 'getFacility',
+      facilityTranslations: 'getFacilityTranslation',
+    }),
     pageProps () {
       return {
         form: this.form,
@@ -183,6 +190,10 @@ export default {
         },
       },
     },
+  },
+
+  created () {
+    this.form.death_record.facility = this.facilityTranslations[this.facility]
   },
 }
 </script>
