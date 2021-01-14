@@ -92,6 +92,7 @@ export default {
     return {
       t: {
         death_record: {
+          facility: 'Rumah Duka',
           sex: 'Jenis Kelamin',
           name: 'Nama',
           religion: 'Agama',
