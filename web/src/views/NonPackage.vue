@@ -138,6 +138,7 @@ export default {
       const result = JSON.parse(JSON.stringify(this.form))
       const clockWizard = new ClockWizard()
 
+      result.death_record.facility = this.facilityTranslations[this.form.death_record.facility]
       result.death_record.sex = sexIsoToWord[this.form.death_record.sex]
       result.death_record.religion = religions[this.form.death_record.religion].text
       result.death_record.death_date = clockWizard.jsonToDateTimeString(this.form.death_record.death_date)
@@ -193,7 +194,7 @@ export default {
   },
 
   created () {
-    this.form.death_record.facility = this.facilityTranslations[this.facility]
+    this.form.death_record.facility = this.facility
   },
 }
 </script>
