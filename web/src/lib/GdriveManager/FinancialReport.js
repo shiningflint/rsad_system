@@ -1,5 +1,6 @@
 import { Reader } from './FinancialReport/Reader'
 import { Writer } from './FinancialReport/Writer'
+import { Payload } from './FinancialReport/Payload'
 
 // FinancialReport is responsible for
 // Take order data and insert to google sheet rows
@@ -12,6 +13,7 @@ export class FinancialReport {
     this.writer = new Writer(this)
     this.sheetId = process.env.VUE_APP_GOOGLE_SHEET_ID
     this.reportData = null
+    this.writeData = null
     this.startRow = null
     this.cellColors = {
       black: {
@@ -53,6 +55,9 @@ export class FinancialReport {
   // Insert row on each saved indexed data to branch A
   // Insert row on each saved indexed data to branch B
   run = () => {
+    const payload = new Payload
+    this.writeData = payload.digest(this.syncPayload)
+
     const month = 'May'
     const firstColumn = '1'
     const maxColumn = '500'

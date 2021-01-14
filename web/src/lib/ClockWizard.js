@@ -6,10 +6,16 @@ import {
 } from 'date-fns'
 
 export class ClockWizard {
-  jsonToDateTimeString (jsonString) {
+  jsonToDateTimeString (jsonString, dateFormat = 'yyyy-MM-dd HH:mm' ) {
     if (!jsonString) return
 
-    return format( parseJSON(jsonString), 'yyyy-MM-dd HH:mm' )
+    return format(parseJSON(jsonString), dateFormat)
+  }
+
+  jsonToDateObj (jsonString) {
+    if (!jsonString) return
+
+    return parseJSON(jsonString)
   }
 
   todayDateString (formatString) {
