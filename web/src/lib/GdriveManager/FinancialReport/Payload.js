@@ -1,5 +1,5 @@
 import _get from 'lodash/get'
-import { ClockWizard } from '../../ClockWizard'
+import { ClockWizard } from '@/lib/ClockWizard'
 
 const monthTranslations = {
   0: 'Jan',

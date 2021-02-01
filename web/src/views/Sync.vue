@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { GdriveManager } from '../lib/GdriveManager'
+import { GdriveManager } from '@/lib/GdriveManager'
 
 export default {
   name: 'Sync',

@@ -4,12 +4,12 @@
       <div class="left-panel">
         <back-button class="item">Kembali</back-button>
         <img
-          src="../assets/info.svg"
+          src="@/assets/info.svg"
           class="item info"
           @click="onInfoClick"
         />
       </div>
-      <img src="../assets/logo_kristalian.svg" class="logo" />
+      <img src="@/assets/logo_kristalian.svg" class="logo" />
     </div>
   </header>
 </template>

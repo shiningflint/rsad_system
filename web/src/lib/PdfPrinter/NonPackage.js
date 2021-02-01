@@ -1,8 +1,8 @@
 import _get from 'lodash/get'
 import _snakeCase from 'lodash/snakeCase'
-import { formatMoney } from '../../utilities/currency'
-import { ClockWizard } from '../../lib/ClockWizard'
-import { store } from '../../store'
+import { formatMoney } from '@/utilities/currency'
+import { ClockWizard } from '@/lib/ClockWizard'
+import { store } from '@/store'
 
 export function NonPackage (printer) {
   const rsadLogo = store.getters.getLogoKristalian

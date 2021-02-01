@@ -1,4 +1,4 @@
-import { Payload } from '../../../../../src/lib/GdriveManager/FinancialReport/Payload'
+import { Payload } from '@src/lib/GdriveManager/FinancialReport/Payload'
 import {
   payloadOneInput,
   payloadOneOutput,

@@ -23,11 +23,11 @@
 <script>
 import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
-import { AllPackageItems, religions, sexIsoToWord } from '../constants/nonPackage'
-import { formatMoney } from '../utilities/currency'
-import { PdfPrinter } from '../lib/PdfPrinter'
-import { ClockWizard } from '../lib/ClockWizard'
-// import { nonPackageForm } from '../documentation/NonPackageForm'
+import { AllPackageItems, religions, sexIsoToWord } from '@/constants/nonPackage'
+import { formatMoney } from '@/utilities/currency'
+import { PdfPrinter } from '@/lib/PdfPrinter'
+import { ClockWizard } from '@/lib/ClockWizard'
+// import { nonPackageForm } from '@/documentation/NonPackageForm'
 
 export default {
   name: 'NonPackageView',

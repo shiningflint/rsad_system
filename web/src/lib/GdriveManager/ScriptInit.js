@@ -1,4 +1,4 @@
-import { scriptLoader } from '../../utilities/loader'
+import { scriptLoader } from '@/utilities/loader'
 
 export class ScriptInit {
   constructor (manager) {

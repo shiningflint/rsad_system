@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { ClockWizard } from '../lib/ClockWizard'
+import { ClockWizard } from '@/lib/ClockWizard'
 
 export default {
   name: 'DropdownDatepicker',

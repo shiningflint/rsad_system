@@ -1,5 +1,5 @@
-import logoKristalian from '../assets/logo_kristalian.png'
-import { toDataURL } from '../utilities/image'
+import logoKristalian from '@/assets/logo_kristalian.png'
+import { toDataURL } from '@/utilities/image'
 
 export const images = {
   state: {

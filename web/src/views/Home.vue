@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="p-3">
-      <img src="../assets/logo_kristalian.svg" />
+      <img src="@/assets/logo_kristalian.svg" />
     </div>
     <p>
       <router-link to="/orders">Orders</router-link>

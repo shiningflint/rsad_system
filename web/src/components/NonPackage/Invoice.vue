@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { AllPackageItems } from '../../constants/nonPackage'
+import { AllPackageItems } from '@/constants/nonPackage'
 import { translatedDeathRecord } from './Utilities'
 import { mixin } from './mixin'
 

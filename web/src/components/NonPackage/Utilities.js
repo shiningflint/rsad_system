@@ -1,7 +1,7 @@
 import _get from 'lodash/get'
-import { religions, sexIsoToWord } from '../../constants/nonPackage'
-import { ClockWizard } from '../../lib/ClockWizard'
-import { store } from '../../store'
+import { religions, sexIsoToWord } from '@/constants/nonPackage'
+import { ClockWizard } from '@/lib/ClockWizard'
+import { store } from '@/store'
 
 const _translators = {
   facility: (value) => {

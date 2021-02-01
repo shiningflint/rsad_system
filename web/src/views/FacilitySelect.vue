@@ -26,7 +26,7 @@
 <script>
 import _get from 'lodash/get'
 import { mapGetters } from 'vuex'
-import { PATH } from '../routes/path'
+import { PATH } from '@/routes/path'
 
 export default {
   name: 'FacilitySelect',
